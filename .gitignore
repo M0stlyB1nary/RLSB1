@@ -8,3 +8,7 @@ target/
 ############
 .DS_Store
 .DS_Store?
+
+# Sensitive files #
+###################
+application.properties
