@@ -42,7 +42,7 @@ public class ProductRepository {
         mongoTemplate.insert(product, CommonConstant.MONGO_PRODUCT_COLLECTION);
     }
 
-    public Product findByProductId(String id) {
+    public Product findByProductId(Integer id) {
         Query query = new Query(Criteria.where(CommonConstant.PRODUCT_PRODUCT_ID).is(id));
         return mongoTemplate.findOne(query, Product.class, CommonConstant.MONGO_PRODUCT_COLLECTION);
     }

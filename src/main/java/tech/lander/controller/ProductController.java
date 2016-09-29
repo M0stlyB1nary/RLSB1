@@ -44,7 +44,7 @@ public class ProductController {
         } else {
             try {
                 productRepository.addProduct(product);
-                return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);
+                return new ResponseEntity<String>(HttpStatus.CREATED);
             }
             catch (Exception e){
                 return new ResponseEntity<String>(HttpStatus.EXPECTATION_FAILED);
@@ -52,13 +52,9 @@ public class ProductController {
         }
     }
 
-    ///TODO: Finish this.
     @RequestMapping(value = "products/{id}", method = RequestMethod.GET)
-    public Product  get(@PathVariable String id) {
-        //return ProductStub.get(id);
+    public Product  get(@PathVariable Integer id) {
         return productRepository.findByProductId(id);
-
-//        return shipwreckRepository.findOne(id);
     }
 
 //    @RequestMapping(value = "products/{id}", method = RequestMethod.PUT)
@@ -70,12 +66,12 @@ public class ProductController {
 //    }
 
     ///TODO: Finish this.
-    @RequestMapping(value = "products/{id}", method = RequestMethod.DELETE)
-    public Product delete(@PathVariable String id) {
-        return ProductStub.delete(id);
-
-//        Shipwreck existingShipwreck = shipwreckRepository.findOne(id);
-//        shipwreckRepository.delete(existingShipwreck);
-//        return existingShipwreck;
-    }
+//    @RequestMapping(value = "products/{id}", method = RequestMethod.DELETE)
+//    public Product delete(@PathVariable String id) {
+//        return ProductStub.delete(id);
+//
+////        Shipwreck existingShipwreck = shipwreckRepository.findOne(id);
+////        shipwreckRepository.delete(existingShipwreck);
+////        return existingShipwreck;
+//    }
 }
