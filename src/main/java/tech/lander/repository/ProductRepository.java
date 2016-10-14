@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 //import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import tech.lander.constants.CommonConstant;
 import tech.lander.model.Product;
@@ -47,5 +48,23 @@ public class ProductRepository {
         return mongoTemplate.findOne(query, Product.class, CommonConstant.MONGO_PRODUCT_COLLECTION);
     }
 
+    public Product findById(String id) {
+        Query query = new Query(Criteria.where(CommonConstant.ID).is(id));
+        return mongoTemplate.findOne(query, Product.class, CommonConstant.MONGO_PRODUCT_COLLECTION);
+    }
+
+    public void deleteProduct(String id) {
+        Query query = new Query(Criteria.where(CommonConstant.ID).is(id));
+        Product product = mongoTemplate.findOne(query, Product.class, CommonConstant.MONGO_PRODUCT_COLLECTION);
+        mongoTemplate.remove(product);
+    }
+
+    public void updateProduct(Product product) {
+        mongoTemplate.updateFirst(
+                new Query(Criteria.where(CommonConstant.ID).is(product.getId())),
+                Update.update("productId", product.getProductId())
+                .set("description", product.getDescription())
+                .set("status", product.getStatus()), Product.class);
+    }
 
 }
