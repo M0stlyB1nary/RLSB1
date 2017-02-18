@@ -19,6 +19,9 @@ public class MongoConfig extends AbstractMongoConfiguration {
     @Value("${spring.data.mongodb.uri}")
     private String mongoURL;
 
+    @Value("${sprint.data.mongodb.db}")
+    private String databaseName;
+
     @Override
     public MongoClient mongo() throws UnknownHostException {
         MongoClientURI uri = new MongoClientURI(mongoURL);
@@ -29,7 +32,7 @@ public class MongoConfig extends AbstractMongoConfiguration {
 
     @Override
     public String getDatabaseName() {
-        return "RLDB";
+        return databaseName;
     }
 
 }

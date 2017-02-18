@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import tech.lander.constants.CommonConstant;
-import tech.lander.model.Product;
+import tech.lander.domain.Product;
 import tech.lander.repository.ProductRepository;
 
 import java.util.List;
