@@ -19,7 +19,7 @@ public class MongoConfig extends AbstractMongoConfiguration {
     @Value("${spring.data.mongodb.uri}")
     private String mongoURL;
 
-    @Value("${sprint.data.mongodb.db}")
+    @Value("${spring.data.mongodb.db}")
     private String databaseName;
 
     @Override

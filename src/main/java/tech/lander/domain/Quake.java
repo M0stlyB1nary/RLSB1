@@ -1,20 +1,37 @@
 package tech.lander.domain;
 
+import org.springframework.data.annotation.TypeAlias;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 /**
  * Created by rory on 2/16/17.
  * API details : http://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php
  */
 
-
+@Document(collection = "quake")
+@TypeAlias("quake")
 public class Quake {
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    private String qid;   //Quake ID
+    private Double magnatude;
+    private String place;
+    private int time;
+    private int tz;
+    private String url;
+    private int felt;
+    private Double intensityReported; //cdi The maximum reported intensity for the event. Computed by DYFI. While typically reported as a roman numeral, for the purposes of this API, intensity is expected as the decimal equivalent of the roman numeral.
+    private Double intensityEstimated; //mmi: The maximum estimated instrumental intensity for the event. Computed by ShakeMap. While typically reported as a roman numeral, for the purposes of this API, intensity is expected as the decimal equivalent of the roman numeral.
+    private String alert;
+    private int tsunami;
+    private int significant; //sig
+    private String net;
+    private String code;
+    private String ids;
+    private String type;  //earthquake, quarry ?
+    private Double longitude;
+    private Double latitude;
+    private Double depth;
+    private String groupObjectId;
 
     public Double getMagnatude() {
         return magnatude;
@@ -160,24 +177,20 @@ public class Quake {
         this.depth = depth;
     }
 
-    private String id;
-    private Double magnatude;
-    private String place;
-    private int time;
-    private int tz;
-    private String url;
-    private int felt;
-    private Double intensityReported; //cdi The maximum reported intensity for the event. Computed by DYFI. While typically reported as a roman numeral, for the purposes of this API, intensity is expected as the decimal equivalent of the roman numeral.
-    private Double intensityEstimated; //mmi: The maximum estimated instrumental intensity for the event. Computed by ShakeMap. While typically reported as a roman numeral, for the purposes of this API, intensity is expected as the decimal equivalent of the roman numeral.
-    private String alert;
-    private int tsunami;
-    private int significant; //sig
-    private String net;
-    private String code;
-    private String ids;
-    private String type;  //earthquake, quarry ?
-    private Double longitude;
-    private Double latitude;
-    private Double depth;
+    public String getGroupObjectId() {
+        return groupObjectId;
+    }
+
+    public void setGroupObjectId(String groupObjectId) {
+        this.groupObjectId = groupObjectId;
+    }
+
+    public String getQid() {
+        return qid;
+    }
+
+    public void setQid(String qid) {
+        this.qid = qid;
+    }
 
 }

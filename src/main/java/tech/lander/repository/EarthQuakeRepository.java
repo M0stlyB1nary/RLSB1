@@ -2,10 +2,15 @@ package tech.lander.repository;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.RestTemplate;
+import tech.lander.constants.CommonConstant;
+import tech.lander.domain.Qgroup;
 import tech.lander.domain.Quake;
 
 import java.io.IOException;
@@ -19,25 +24,30 @@ import java.util.List;
 @Repository
 public class EarthQuakeRepository {
 
-    public static final String eqUrl = "http://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2017-01-01&endtime=2017-01-02&minmagnitude=5";
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
-    public String fetchLatestEq() {
+//    @Autowired
+//    public void setMongoTemplate(MongoTemplate mongoTemplate) { this.mongoTemplate = mongoTemplate; }
+
+//    public static final String eqUrl = "http://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2017-01-01&endtime=2017-01-02&minmagnitude=5";
+
+    public List<Quake> fetchLatestEq(String startTime, String endTime, String minMagnitude, String groupObjId) {
         RestTemplate restTemplate = new RestTemplate();
+        String eqUrl = CommonConstant.URL_USGS + "&starttime=" + startTime + "&endtime=" + endTime + "&minmagnitude=" + minMagnitude;
         ResponseEntity<String> response = restTemplate.getForEntity(eqUrl, String.class);
 
         List<Quake> quakeList = new ArrayList<Quake>();
-        int quakeCount = 0;
         if(response.getStatusCode() == HttpStatus.OK){
-            System.out.println("Good response");
             ObjectMapper mapper = new ObjectMapper();
             try {
                 JsonNode root = mapper.readTree(response.getBody());
                 JsonNode metadata = root.path("metadata");
-                quakeCount = metadata.get("count").asInt();
                 JsonNode features = root.path("features");
                 features.forEach(e -> {
                     Quake quake = new Quake();
-                    quake.setId(e.get("id").asText());
+                    quake.setGroupObjectId(groupObjId);
+                    quake.setQid(e.get("id").asText());
                     JsonNode properties = e.path("properties");
                     quake.setMagnatude(properties.get("mag").asDouble());
                     quake.setPlace(properties.get("place").asText());
@@ -61,7 +71,6 @@ public class EarthQuakeRepository {
                     quake.setLatitude(coordinates.get(1).asDouble());
                     quake.setDepth(coordinates.get(2).asDouble());
 
-                    System.out.println(quake.getDepth());
                     quakeList.add(quake);
                 });
             } catch (IOException e) {
@@ -69,8 +78,17 @@ public class EarthQuakeRepository {
             }
         }
 
-        //Save the quakes.
+        return quakeList;
+    }
 
-        return "Earthquake Count: " + quakeCount;
+    public void addQuakesToGroup(List<Quake> quakeList) {
+        for (Quake q : quakeList) {
+            mongoTemplate.insert(q, CommonConstant.MONGO_QUAKE_COLECTION);
+        }
+    }
+
+    public String addQuakeGroup(Qgroup qgroup) {
+        mongoTemplate.insert(qgroup, CommonConstant.MONGO_QUAKE_GROUP_COLLECTION);
+        return qgroup.getId();
     }
 }
