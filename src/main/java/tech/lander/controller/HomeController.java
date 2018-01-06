@@ -2,10 +2,7 @@ package tech.lander.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 //import tech.lander.model.Product;
 import tech.lander.repository.ProductRepository;
 import tech.lander.service.NumberGen;
@@ -14,6 +11,7 @@ import tech.lander.service.NumberGen;
 /**
  * Created by rory on 5/20/16.
  */
+@CrossOrigin(origins = {"http://localhost:63342", "http://192.168.0.17"})
 @RestController
 public class HomeController {
 

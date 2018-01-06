@@ -16,7 +16,7 @@ import java.util.List;
  * Created by rory on 5/27/16.
  */
 
-
+@CrossOrigin(origins = {"http://localhost:63342", "http://192.168.0.17"})
 @RestController
 @RequestMapping("api/v1/")
 public class ProductController {
