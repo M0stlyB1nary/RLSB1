@@ -3,7 +3,6 @@ package tech.lander.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-//import tech.lander.model.Product;
 import tech.lander.repository.ProductRepository;
 import tech.lander.service.NumberGen;
 

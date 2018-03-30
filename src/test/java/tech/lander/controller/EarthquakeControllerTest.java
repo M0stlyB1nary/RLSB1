@@ -6,10 +6,9 @@ import org.junit.Test;
 import tech.lander.domain.Qgroup;
 import tech.lander.repository.EarthQuakeRepository;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by rory on 2/28/17.

@@ -63,7 +63,10 @@ public class ProductRepository {
                 new Query(Criteria.where(CommonConstant.ID).is(product.getId())),
                 Update.update("productId", product.getProductId())
                 .set("description", product.getDescription())
-                .set("status", product.getStatus()), Product.class);
+                .set("status", product.getStatus())
+                .set("productName", product.getProductName())
+                , Product.class);
+//        mongoTemplate.save(product);
     }
 
 }

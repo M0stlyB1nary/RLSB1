@@ -16,7 +16,7 @@ import java.util.List;
  * Created by rory on 5/27/16.
  */
 
-@CrossOrigin(origins = {"http://localhost:63342", "http://192.168.0.17"})
+@CrossOrigin(origins = {"http://localhost:63342", "http://192.168.0.17", "*"})
 @RestController
 @RequestMapping("api/v1/")
 public class ProductController {
@@ -55,15 +55,19 @@ public class ProductController {
     }
 
     @RequestMapping(value = "products/{id}", method = RequestMethod.GET)
-    public Product  get(@PathVariable Integer id) {
-        return productRepository.findByProductId(id);
+    public Product  get(@PathVariable String id) {
+        return productRepository.findById(id);
     }
 
-    @RequestMapping(value = "products/{id}", method = RequestMethod.PUT)
-    public String update(@PathVariable String id, @RequestBody Product product){
-        product.setId(id);
-        productRepository.updateProduct(product);
-        return CommonConstant.MESSAGE_PRODUCT_UDPATED;
+    @RequestMapping(value = "products/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> update(@PathVariable String id, @RequestBody Product product){
+        try {
+            product.setId(id);
+            productRepository.updateProduct(product);
+            return new ResponseEntity<String>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(HttpStatus.EXPECTATION_FAILED);
+        }
     }
 
     @RequestMapping(value = "products/{id}", method = RequestMethod.DELETE)
