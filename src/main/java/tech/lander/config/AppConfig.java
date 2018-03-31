@@ -22,20 +22,10 @@ public class AppConfig {
     @Value("${publicKeyLoc}")
     private String publicKeyLoc;
 
-//    public @Bean MongoClient mongoClient() {
-//        MongoClientURI uri = new MongoClientURI(getDecryptedMongoURL(mongoURL));
-//        MongoClient client = new MongoClient(uri);
-//        return client;
-//    }
-
     @Bean
     public MongoDbFactory mongoDbFactory() throws Exception {
 
-//        MongoClientURI uri = new MongoClientURI(getDecryptedMongoURL(mongoURL));
-//        MongoClient mongoClient = new MongoClient(new MongoClientURI(getDecryptedMongoURL(mongoURL)));
-
         return new SimpleMongoDbFactory(new MongoClientURI(getDecryptedMongoURL(mongoURL)));
-
     }
 
     @Bean
@@ -43,7 +33,6 @@ public class AppConfig {
 
         MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory());
         return mongoTemplate;
-
     }
 
     private String getDecryptedMongoURL(String cipherText) {

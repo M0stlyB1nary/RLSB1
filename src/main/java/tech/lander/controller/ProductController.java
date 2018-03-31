@@ -14,10 +14,6 @@ import tech.lander.repository.ProductRepository;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Created by rory on 5/27/16.
- */
-
 @CrossOrigin(origins = {"http://localhost:63342", "http://192.168.0.17", "*"})
 @RestController
 @RequestMapping("api/v1/")
