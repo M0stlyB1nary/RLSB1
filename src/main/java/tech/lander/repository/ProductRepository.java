@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 import tech.lander.constants.CommonConstant;
 import tech.lander.domain.Product;
 
-import java.util.List;
-
 
 /**
  * Created by rory on 6/8/16.
@@ -24,19 +22,6 @@ public class ProductRepository {
     @Autowired
     void setMongoTemplate(MongoTemplate mongoTemplate) { this.mongoTemplate = mongoTemplate; }
 
-    public List<Product> findByDescription(String desc) {
-        Query query = new Query(Criteria.where(CommonConstant.PRODUCT_DESCRIPTION).regex(desc));
-        return mongoTemplate.find(query, Product.class, CommonConstant.MONGO_PRODUCT_COLLECTION);
-    }
-
-    public List<Product> findAll() {
-        return mongoTemplate.findAll(Product.class, CommonConstant.MONGO_PRODUCT_COLLECTION);
-    }
-
-    public List<Product> findByStatus(String status) {
-        Query query = new Query(Criteria.where(CommonConstant.PRODUCT_STATUS).is(status));
-        return mongoTemplate.find(query, Product.class, CommonConstant.MONGO_PRODUCT_COLLECTION);
-    }
 
     public void addProduct(Product product) {
         mongoTemplate.insert(product, CommonConstant.MONGO_PRODUCT_COLLECTION);
@@ -44,11 +29,6 @@ public class ProductRepository {
 
     public Product findByProductId(Integer id) {
         Query query = new Query(Criteria.where(CommonConstant.PRODUCT_PRODUCT_ID).is(id));
-        return mongoTemplate.findOne(query, Product.class, CommonConstant.MONGO_PRODUCT_COLLECTION);
-    }
-
-    public Product findById(String id) {
-        Query query = new Query(Criteria.where(CommonConstant.ID).is(id));
         return mongoTemplate.findOne(query, Product.class, CommonConstant.MONGO_PRODUCT_COLLECTION);
     }
 
@@ -66,7 +46,6 @@ public class ProductRepository {
                 .set("status", product.getStatus())
                 .set("productName", product.getProductName())
                 , Product.class);
-//        mongoTemplate.save(product);
     }
 
 }

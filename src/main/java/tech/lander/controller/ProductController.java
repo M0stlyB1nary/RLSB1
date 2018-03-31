@@ -12,6 +12,7 @@ import tech.lander.repository.ProductRepoNew;
 import tech.lander.repository.ProductRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by rory on 5/27/16.
@@ -30,13 +31,11 @@ public class ProductController {
 
     @RequestMapping(value = "products", method = RequestMethod.GET)
     public List<Product> list() {
-//        return productRepository.findAll();
         return productRepoNew.findAll();
     }
 
     @RequestMapping(value = "products/desc", method = RequestMethod.GET)
     public List<Product> listByDesc(@RequestParam String desc) {
-//        return productRepository.findByDescription(desc);
         return productRepoNew.findByDescription(desc);
     }
 
@@ -62,7 +61,9 @@ public class ProductController {
 
     @RequestMapping(value = "products/{id}", method = RequestMethod.GET)
     public Product  get(@PathVariable String id) {
-        return productRepository.findById(id);
+        Optional<Product> foundProduct = productRepoNew.findById(id);
+        return foundProduct.get();
+        //TODO Add try catch
     }
 
     @RequestMapping(value = "products/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -70,7 +71,6 @@ public class ProductController {
         try {
             product.setId(id);
             productRepoNew.save(product);
-//            productRepository.updateProduct(product);
             return new ResponseEntity<String>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<String>(HttpStatus.EXPECTATION_FAILED);
