@@ -1,21 +1,17 @@
 package tech.lander.config;
 
-import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-import com.mongodb.WriteConcern;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.data.mongodb.MongoDbFactory;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import tech.lander.Util.DCUtil;
 
-import java.net.UnknownHostException;
 
-
-/**
- * Created by rory on 8/8/16.
- */
 @Configuration
-public class MongoConfig extends AbstractMongoConfiguration {
+public class AppConfig {
 
     @Value("${spring.data.mongodb.db}")
     private String databaseName;
@@ -26,18 +22,17 @@ public class MongoConfig extends AbstractMongoConfiguration {
     @Value("${publicKeyLoc}")
     private String publicKeyLoc;
 
-    @Override
-    public MongoClient mongo() throws UnknownHostException {
+    @Bean
+    public MongoDbFactory mongoDbFactory() throws Exception {
 
-        MongoClientURI uri = new MongoClientURI(getDecryptedMongoURL(mongoURL));
-        MongoClient client = new MongoClient(uri);
-        client.setWriteConcern(WriteConcern.JOURNALED);
-        return client;
+        return new SimpleMongoDbFactory(new MongoClientURI(getDecryptedMongoURL(mongoURL)));
     }
 
-    @Override
-    public String getDatabaseName() {
-        return databaseName;
+    @Bean
+    public MongoTemplate mongoTemplate() throws Exception {
+
+        MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory());
+        return mongoTemplate;
     }
 
     private String getDecryptedMongoURL(String cipherText) {
@@ -50,5 +45,4 @@ public class MongoConfig extends AbstractMongoConfiguration {
         }
         return mongoDBUri;
     }
-
 }

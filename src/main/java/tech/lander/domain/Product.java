@@ -6,7 +6,6 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +17,7 @@ import java.util.List;
 @Document(collection = "product")
 public class Product {
 
-    @Id
+    @org.springframework.data.annotation.Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
     private int productId;

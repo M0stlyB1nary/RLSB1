@@ -8,15 +8,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import tech.lander.constants.CommonConstant;
 import tech.lander.domain.Product;
+import tech.lander.repository.ProductRepoNew;
 import tech.lander.repository.ProductRepository;
 
 import java.util.List;
+import java.util.Optional;
 
-/**
- * Created by rory on 5/27/16.
- */
-
-@CrossOrigin(origins = {"http://localhost:63342", "http://192.168.0.17"})
+@CrossOrigin(origins = {"http://localhost:63342", "http://192.168.0.17", "*"})
 @RestController
 @RequestMapping("api/v1/")
 public class ProductController {
@@ -24,19 +22,22 @@ public class ProductController {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private ProductRepoNew productRepoNew;
+
     @RequestMapping(value = "products", method = RequestMethod.GET)
     public List<Product> list() {
-        return productRepository.findAll();
+        return productRepoNew.findAll();
     }
 
     @RequestMapping(value = "products/desc", method = RequestMethod.GET)
     public List<Product> listByDesc(@RequestParam String desc) {
-        return productRepository.findByDescription(desc);
+        return productRepoNew.findByDescription(desc);
     }
 
     @RequestMapping(value = "products/status", method = RequestMethod.GET)
     public List<Product> listByStatus(@RequestParam String status) {
-        return productRepository.findByStatus(status);
+        return productRepoNew.findByStatus(status);
     }
 
     @RequestMapping(value = "product/add", method = RequestMethod.POST)
@@ -55,15 +56,21 @@ public class ProductController {
     }
 
     @RequestMapping(value = "products/{id}", method = RequestMethod.GET)
-    public Product  get(@PathVariable Integer id) {
-        return productRepository.findByProductId(id);
+    public Product  get(@PathVariable String id) {
+        Optional<Product> foundProduct = productRepoNew.findById(id);
+        return foundProduct.get();
+        //TODO Add try catch
     }
 
-    @RequestMapping(value = "products/{id}", method = RequestMethod.PUT)
-    public String update(@PathVariable String id, @RequestBody Product product){
-        product.setId(id);
-        productRepository.updateProduct(product);
-        return CommonConstant.MESSAGE_PRODUCT_UDPATED;
+    @RequestMapping(value = "products/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> update(@PathVariable String id, @RequestBody Product product){
+        try {
+            product.setId(id);
+            productRepoNew.save(product);
+            return new ResponseEntity<String>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(HttpStatus.EXPECTATION_FAILED);
+        }
     }
 
     @RequestMapping(value = "products/{id}", method = RequestMethod.DELETE)
