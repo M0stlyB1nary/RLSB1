@@ -25,6 +25,7 @@ public abstract class MongoConfig extends AbstractMongoConfiguration {
     @Value("${publicKeyLoc}")
     private String publicKeyLoc;
 
+//    @Override
     public MongoClient mongo() throws UnknownHostException {
 
         MongoClientURI uri = new MongoClientURI(getDecryptedMongoURL(mongoURL));
@@ -42,6 +43,8 @@ public abstract class MongoConfig extends AbstractMongoConfiguration {
         try {
             DCUtil dcUtil = new DCUtil();
             mongoDBUri = dcUtil.decryptText(cipherText, publicKeyLoc);
+            System.out.println("checkpoint");
+//            mongoDBUri += "?authMode=scram-sha1";
         } catch (Exception e) {
             e.printStackTrace();
         }
