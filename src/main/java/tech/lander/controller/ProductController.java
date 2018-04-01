@@ -31,7 +31,8 @@ public class ProductController {
 
     @RequestMapping(value = "products/desc", method = RequestMethod.GET)
     public List<Product> listByDesc(@RequestParam String desc) {
-        return productRepoNew.findByDescription(desc);
+//        return productRepoNew.findByDescription(desc);
+        return productRepository.findByProductName(desc);
     }
 
     @RequestMapping(value = "products/status", method = RequestMethod.GET)
@@ -39,7 +40,7 @@ public class ProductController {
         return productRepoNew.findByStatus(status);
     }
 
-    @RequestMapping(value = "product/add", method = RequestMethod.POST)
+    @RequestMapping(value = "products", method = RequestMethod.POST)
     ResponseEntity<?> addProduct(@RequestBody Product product, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<String>(HttpStatus.NOT_ACCEPTABLE);

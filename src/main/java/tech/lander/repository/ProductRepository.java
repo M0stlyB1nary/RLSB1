@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import tech.lander.constants.CommonConstant;
 import tech.lander.domain.Product;
 
+import java.util.List;
+
 
 /**
  * Created by rory on 6/8/16.
@@ -30,6 +32,11 @@ public class ProductRepository {
     public Product findByProductId(Integer id) {
         Query query = new Query(Criteria.where(CommonConstant.PRODUCT_PRODUCT_ID).is(id));
         return mongoTemplate.findOne(query, Product.class, CommonConstant.MONGO_PRODUCT_COLLECTION);
+    }
+
+    public List<Product> findByProductName(String searchTerm) {
+        Query query = new Query(Criteria.where("productName").regex(searchTerm));
+        return mongoTemplate.find(query, Product.class, CommonConstant.MONGO_PRODUCT_COLLECTION);
     }
 
     public void deleteProduct(String id) {
