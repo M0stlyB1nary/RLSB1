@@ -14,7 +14,6 @@ import tech.lander.repository.ProductRepository;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = {"http://localhost:63342", "http://192.168.0.17", "*"})
 @RestController
 @RequestMapping("api/v1/")
 public class ProductController {
@@ -62,10 +61,9 @@ public class ProductController {
         //TODO Add try catch
     }
 
-    @RequestMapping(value = "products/{id}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> update(@PathVariable String id, @RequestBody Product product){
+    @RequestMapping(value = "products", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> update(@RequestBody Product product){
         try {
-            product.setId(id);
             productRepoNew.save(product);
             return new ResponseEntity<String>(HttpStatus.OK);
         } catch (Exception e) {
