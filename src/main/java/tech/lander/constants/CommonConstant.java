@@ -18,7 +18,7 @@ public class CommonConstant {
     //URL's
     public static final String URL_EQ_API = "eq/v1/";
     public static final String URL_FETCH = "eqFetch";
-    public static final String URL_USGS = "http://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson";
+    public static final String URL_USGS = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson";
 
     private CommonConstant() {
 

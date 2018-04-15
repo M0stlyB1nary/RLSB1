@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import tech.lander.domain.Qgroup;
-import tech.lander.repository.EarthQuakeRepository;
+import tech.lander.repository.EqLoadRepository;
 
 import java.util.Date;
 
@@ -15,11 +15,11 @@ import static org.junit.Assert.assertEquals;
  */
 public class EarthquakeControllerTest {
 
-    private EarthQuakeRepository earthQuakeRepository;
+    private EqLoadRepository eqLoadRepository;
     @Before
     public void Setup() {
         System.out.println("Before Check");
-        EarthQuakeRepository earthQuakeRepository = new EarthQuakeRepository();
+        EqLoadRepository eqLoadRepository = new EqLoadRepository();
     }
     @Ignore
     @Test
