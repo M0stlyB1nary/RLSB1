@@ -3,7 +3,6 @@ package tech.lander.repository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,7 @@ import java.util.List;
  * Created by rory on 2/16/17.
  */
 @Repository
-public class EarthQuakeRepository {
+public class EqLoadRepository {
 
     @Autowired
     private MongoTemplate mongoTemplate;
