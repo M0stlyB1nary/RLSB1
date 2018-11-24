@@ -66,4 +66,8 @@ public class EarthquakeController {
     public List<Quake> getQuakesByGroupId(@PathVariable String groupObjectId) {
         return eqRepository.findByGroupObjectId(groupObjectId);
     }
+
+    public void setEqRepository(EqRepository eqRepository) {
+        this.eqRepository = eqRepository;
+    }
 }
