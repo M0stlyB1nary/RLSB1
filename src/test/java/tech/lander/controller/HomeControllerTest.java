@@ -16,4 +16,6 @@ public class HomeControllerTest {
 		assertEquals( result, "All your base are belong to us.");
 	}
 
+
+
 }
