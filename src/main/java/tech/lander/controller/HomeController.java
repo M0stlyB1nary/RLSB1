@@ -12,6 +12,7 @@ import tech.lander.service.NumberGen;
  */
 @CrossOrigin(origins = {"http://localhost:63342", "http://192.168.0.17"})
 @RestController
+//@Configuration
 public class HomeController {
 
     @Autowired
